@@ -1,0 +1,34 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import createSlug from "../../lib/createSlug";
+import ConferenceLayout from "@layouts/ConferenceLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("presentations");
+  return entries.map((entry) => ({
+    params: { slug: createSlug(entry.data.title, entry.slug) },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"presentations">;
+}
+
+const { entry } = Astro.props;
+const post: any = entry.data;
+const { Content } = await entry.render();
+---
+
+<ConferenceLayout
+  title={post.title}
+  description={post.description}
+  pubDate={post.eventDate}
+  heroImage={post.heroImage}
+  updatedDate={post.updatedDate}
+  badge={post.conference}
+  tags={post.tags}
+  speakers={post.speakers}
+>
+  <Content />
+</ConferenceLayout>

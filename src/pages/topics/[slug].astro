@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import TopicLayout from "@layouts/TopicLayout.astro";
+import createSlug from "../../lib/createSlug"
+
+export async function getStaticPaths() {
+  const topicsEntries = await getCollection("topics");
+  return topicsEntries.map((entry) => ({
+    params: { slug: createSlug(entry.data.title, entry.slug) },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"topics">;
+}
+
+const { entry } = Astro.props;
+const topic: any = entry.data;
+const { Content } = await entry.render();
+---
+
+<TopicLayout
+  title={topic.title}
+  description={topic.description}
+  date={topic.date}
+  image={topic.heroImage}
+  updatedDate={topic.updatedDate}
+  tags={topic.tags}
+>
+  <Content />
+</TopicLayout>

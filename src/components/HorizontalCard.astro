@@ -1,0 +1,55 @@
+---
+const {
+  title,
+  img,
+  desc,
+  url,
+  date,
+  badge,
+  tags,
+  target = "_blank",
+} = Astro.props;
+import { Image } from "astro:assets";
+const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
+---
+
+<div
+class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale-[102%] dark:from-gray-700/70 dark:to-gray-800/70">
+  <a href={url} target={target}>
+    <div class="hero-content flex-col md:flex-row">
+      {
+        img && (
+          <Image
+            src={img}
+            width={750}
+            height={422}
+            format="webp"
+            alt={title}
+            class="max-w-full md:max-w-[13rem] rounded-lg"
+          />
+        )
+      }
+      <div class="grow w-full">
+        <h1 class="text-xl font-bold">
+          {title}
+          {badge && <div class="badge badge-secondary rounded-full mx-2">{badge}</div>}
+        </h1>
+        {desc && <p class="py-1 text-1xl">{desc}</p> }
+        {date && <span>
+            <svg class="inline-block -mt-0.5 dark:text-gray-400 h-4 w-4" data-icon="tabler:clock" height="1em" viewBox="0 0 24 24" width="1em"><symbol id="ai:tabler:clock"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0-18 0"></path><path d="M12 7v5l3 3"></path></g></symbol><use xlink:href="#ai:tabler:clock"></use></svg> 
+            {date}
+          </span>}
+        <div class="card-actions justify-end mt-5">
+          {
+            tags &&
+              tags.map((tag) => (
+                <a href={`${tag_url}/${tag}`} class="badge badge-outline rounded-full">
+                  {tag}
+                </a>
+              ))
+          }
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

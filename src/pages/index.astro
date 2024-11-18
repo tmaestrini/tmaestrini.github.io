@@ -1,0 +1,141 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HorizontalCard from "../components/HorizontalCard.astro";
+import { getCollection } from "astro:content";
+import createSlug from "../lib/createSlug"
+import dayjs from "dayjs";
+
+const topics = (await getCollection("topics")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const conferences = (await getCollection("conferences")).sort((a, b) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf());
+const presentations = (await getCollection("presentations")).sort((a, b) => b.data.presentation.valueOf() - a.data.presentation.valueOf());
+
+const latest_topics = topics.slice(0, 6);
+const latest_conferences = conferences.slice(0, 3);
+const latest_presentations = presentations.slice(0, 3);
+---
+
+<BaseLayout sideBarActiveItemID="home">
+  <div class="pb-12 mt-5">
+    <div class="text-xl py-1">Hey there 👋</div>
+    <div class="text-5xl font-bold">I'm Tobias Maestrini</div>
+    <div class="text-3xl py-3 font-bold">Microsoft 365 Enthusiast & Consultant from Switzerland</div>
+    <div class="py-2">
+      <text class="text-lg">
+        👨🏻‍🏫  Microsoft 365 Consultant (SharePoint & Power Platform) | 👨🏻‍💻 Loves Coding | 🏆 Microsoft MVP<br/> 
+        🧍🏻‍♂️👭 Stressed but happy Father ❤️
+      </text>
+    </div>
+    <div class="mt-8">
+      <a class="btn" href="https://tmaestrini.bsky.social/" target="_blank" rel="noopener noreferer">
+        <svg role="img" viewBox="0 0 28 24" xmlns="http://www.w3.org/2000/svg" id="Bluesky--Streamline-Simple-Icons" height="24" width="24"><desc>Bluesky Streamline Icon: https://streamlinehq.com</desc><title>Bluesky</title><path d="M12 10.8c-1.087 -2.114 -4.046 -6.053 -6.798 -7.995C2.566 0.944 1.561 1.266 0.902 1.565 0.139 1.908 0 3.08 0 3.768c0 0.69 0.378 5.65 0.624 6.479 0.815 2.736 3.713 3.66 6.383 3.364 0.136 -0.02 0.275 -0.039 0.415 -0.056 -0.138 0.022 -0.276 0.04 -0.415 0.056 -3.912 0.58 -7.387 2.005 -2.83 7.078 5.013 5.19 6.87 -1.113 7.823 -4.308 0.953 3.195 2.05 9.271 7.733 4.308 4.267 -4.308 1.172 -6.498 -2.74 -7.078a8.741 8.741 0 0 1 -0.415 -0.056c0.14 0.017 0.279 0.036 0.415 0.056 2.67 0.297 5.568 -0.628 6.383 -3.364 0.246 -0.828 0.624 -5.79 0.624 -6.478 0 -0.69 -0.139 -1.861 -0.902 -2.206 -0.659 -0.298 -1.664 -0.62 -4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z" fill="#000000" stroke-width="1"></path></svg>
+        Let's connect
+      </a>
+      <a href="https://github.com/tmaestrini?tab=repositories" target="_blank" rel="noopener noreferer" class="btn btn-outline ml-5">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor;transform: ;msFilter:;"
+            ><path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"
+            ></path>
+        </svg>My Github repositories
+      </a>
+      <a href="https://github.com/tmaestrini?tab=projects" target="_blank" rel="noopener noreferer" class="btn btn-outline ml-5">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: currentColor;transform: ;msFilter:;"
+            ><path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"
+            ></path>
+        </svg>My Github projects
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <div class="flex justify-between items-top">
+      <div class="text-2xl font-bold flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width={1.5} stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
+        </svg>
+        Latest from Topics
+      </div>
+      <a href="/topics" class="text-blue-600 hover:text-blue-900 dark:text-primary-400 dark:hover:text-primary-300">
+        See all topics →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
+      {latest_topics.map((topic) => (
+        <HorizontalCard
+          title={topic.data.title}
+          desc={topic.data.description}
+          url={`/topics/${createSlug(topic.data.title, topic.slug)}`}
+          target="_self"
+          tags={topic.data.tags}
+        />
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-10">
+    <div class="flex justify-between items-top">
+      <div class="text-2xl font-bold flex items-top gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+        </svg>
+        Latest from Conferences
+      </div>
+      <a href="/conferences" class="text-blue-600 hover:text-blue-900 dark:text-primary-400 dark:hover:text-primary-300">
+        See all conference articles →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
+      {latest_conferences.map((conf) => (
+        <HorizontalCard
+          title={conf.data.title}
+          date={dayjs(conf.data.eventDate).format("lll")}
+          desc={conf.data.description}
+          url={`/conferences/${createSlug(conf.data.title, conf.slug)}`}
+          target="_self"
+          badge={conf.data.conference}
+          tags={conf.data.tags}
+        />
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-10">
+    <div class="flex justify-between items-top">
+      <div class="text-2xl font-bold flex items-top gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+        </svg>
+        Latest from Presentations
+      </div>
+      <a href="/presentations" class="text-blue-600 hover:text-blue-900 dark:text-primary-400 dark:hover:text-primary-300">
+        See all presentations →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 ms:grid-cols-2 xl:grid-cols-3 gap-5 mt-5">
+      {latest_presentations.map((pres) => (
+        <HorizontalCard
+          title={pres.data.title}
+          date={dayjs(pres.data.presentation).format("ll")}
+          desc={pres.data.description}
+          url={`/presentations/${createSlug(pres.data.title, pres.slug)}`}
+          target="_self"
+          tags={pres.data.tags}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
