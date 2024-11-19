@@ -26,7 +26,7 @@ jobs:
         run: |
           git submodule init
           git submodule update --remote --recursive
-          ls -la src/content  # Debug: verify content
+          ls -la src/content
 
       - name: Clean install dependencies
         run: |
