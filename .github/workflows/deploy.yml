@@ -24,8 +24,7 @@ jobs:
           
       - name: Update submodules
         run: |
-          git submodule update --init --recursive
-          git submodule update --remote --recursive
+          git submodule update --remote
 
       - name: Clean install dependencies
         run: |
