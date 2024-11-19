@@ -22,4 +22,4 @@ pnpm-debug.log*
 .astro/
 
 # Content (submodule)
-src/content/
+src/content
