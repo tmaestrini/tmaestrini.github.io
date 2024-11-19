@@ -1,4 +1,3 @@
 [submodule "src/content"]
 	path = src/content
-
 	url = https://USERNAME:TOKEN@github.com/tmaestrini/community.git
