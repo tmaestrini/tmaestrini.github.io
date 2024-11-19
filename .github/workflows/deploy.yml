@@ -39,7 +39,7 @@ jobs:
         
       - name: Build site
         run: | 
-        ls -la src/content  # Debug: verify content before build
+        ls -la src/content
         npm run build
         
       - name: Upload artifact
