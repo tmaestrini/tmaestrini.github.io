@@ -8,7 +8,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tmaestrini.github.com',
+  site: 'https://tmaestrini.github.io',
   build: {
     format: "file",
   },
