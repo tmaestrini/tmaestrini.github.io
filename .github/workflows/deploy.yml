@@ -24,7 +24,7 @@ jobs:
           
       - name: Update content
         run: |
-          git submodule update --remote --recursive
+          git submodule add --force https://github.com/tmaestrini/community src/content
 
       - name: Clean install dependencies
         run: |
