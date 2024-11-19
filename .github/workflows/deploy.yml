@@ -24,7 +24,9 @@ jobs:
           
       - name: Update submodules
         run: |
-          git submodule update --remote
+          git submodule init
+          git submodule update --remote --recursive
+          ls -la src/content  # Debug: verify content
 
       - name: Clean install dependencies
         run: |
@@ -36,7 +38,9 @@ jobs:
         run: npm install @rollup/rollup-linux-x64-gnu
         
       - name: Build site
-        run: npm run build
+        run: | 
+        ls -la src/content  # Debug: verify content before build
+        npm run build
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
