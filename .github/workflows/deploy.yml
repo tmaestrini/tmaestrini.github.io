@@ -1,6 +1,8 @@
 name: Deploy AstroWeb to GitHub Pages
 
 on:
+  repository_dispatch:
+    types: [trigger-build-and-deploy]
   push:
     branches: [ main ]
   workflow_dispatch:
