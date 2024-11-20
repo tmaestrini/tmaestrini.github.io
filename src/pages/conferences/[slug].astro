@@ -16,19 +16,9 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const post: any = entry.data;
 const { Content } = await entry.render();
 ---
 
-<ConferenceLayout
-  title={post.title}
-  description={post.description}
-  pubDate={post.eventDate}
-  heroImage={post.heroImage}
-  updatedDate={post.updatedDate}
-  badge={post.conference}
-  tags={post.tags}
-  speakers={post.speakers}
->
+<ConferenceLayout entry={entry}>
   <Content />
 </ConferenceLayout>

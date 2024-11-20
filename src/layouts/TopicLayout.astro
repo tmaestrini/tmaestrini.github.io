@@ -1,25 +1,28 @@
 ---
-import type { TopicSchema } from "src/content-old/config";
+import type { CollectionEntry } from 'astro:content';
 import BaseLayout from "./BaseLayout.astro";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 
-export interface Props extends TopicSchema {}
+interface Props {
+  entry: CollectionEntry<'topics'>,
+}
 
+const { entry } = Astro.props;
 const {
   title,
   description,
+  draft,
   date,
   updatedDate,
   image,
   categories = [],
   tags = [],
-} = Astro.props;
+} = entry.data;
+
 dayjs.extend(localizedFormat);
 const displayDate = dayjs(date).format("ll");
 import { Image } from "astro:assets";
-console.log(Astro.props);
-
 ---
 
 <BaseLayout title={title} description={description} image={image}, ogType="article">
