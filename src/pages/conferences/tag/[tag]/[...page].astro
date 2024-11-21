@@ -27,7 +27,7 @@ const params = Astro.params;
 
 <BaseLayout title={`Conferences on '${params.tag}'`} sideBarActiveItemID="conferences">
   <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Conferences on '{params.tag}'</div>
+    <div class="text-4xl w-full font-bold">Conference Topics tagged with '{params.tag}'</div>
   </div>
   {
     page.data.length === 0 ? (
