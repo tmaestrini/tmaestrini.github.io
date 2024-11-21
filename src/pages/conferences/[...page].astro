@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import HorizontalCard from "../../components/HorizontalCard.astro";
+import PageTags from "../../components/PageTags.astro";
 import { getCollection } from "astro:content";
 import createSlug from "../../lib/createSlug"
 import dayjs from "dayjs";
@@ -14,28 +15,37 @@ export async function getStaticPaths({ paginate }) {
   return paginate(articles, { pageSize: 10 });
 }
 
+const allConferencesTags = (await getCollection("conferences")).filter((a: any) => !a.draft).flatMap(conf => conf.data.conference);
+const allConferencesTagsUnique = [...new Set(allConferencesTags)];
 const { page } = Astro.props;
 ---
 
 <BaseLayout title="Conferences" sideBarActiveItemID="conferences">
   <div class="w-full max-w-none px-4 sm:px-6 lg:px-8">
 
-    <div class="mb-5">
+    <div class="mb-5 mt-11
+    ">
       <div class="text-4xl w-full font-bold">Notes from Conferences (Full List)</div>
       <div class="my-6">
-        All conference summaries in one place. Please note that the information provided here is based on personal note that were taken during the according conference.
-        The information may not be accurate or up-to-date.<br>
+        All conference summaries in one place. Please note that the information provided here is based on personal note that were taken during the according event.
+        At the time of reading, the information may not be accurate or up-to-date anymore.
         For the most up-to-date information, please visit the conference website.
       </div>
     </div>
 
+    <h2 class="title my-2 text-xl font-bold">Filter by Conference</h2>     
+    <PageTags tagsList={allConferencesTagsUnique} />
+    <div class="divider my-0" />
+    
     {
       page.data.length === 0 ? (
       <div class="bg-base-200 border-l-4 border-secondary w-full p-4">
           <p class="font-bold">Sorry!</p>
           <p>There are no conference summaries to show at the moment. Check back later!</p>
-        </div>
+      </div>
       ) : (
+      <div>
+        <h2 class="title text-2xl my-6 font-bold">Conference Notes</h2>     
         <ul>
           {page.data.map((conf) => {
             const displayDate = dayjs(conf.data.eventDate).format("lll");
@@ -48,11 +58,12 @@ const { page } = Astro.props;
                 target="_self"
                 badge={conf.data.conference}
                 tags={conf.data.tags}
-              />
+                />
               <div class="divider my-0" />
             </>
           })}
         </ul>
+      </div>
       )
     }
 

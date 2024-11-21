@@ -4,19 +4,24 @@ import HorizontalCard from "../../../../components/HorizontalCard.astro";
 import { getCollection } from "astro:content";
 import createSlug from "../../../../lib/createSlug";
 import dayjs from "dayjs";
+import NaviLink from "@components/NaviLink.astro";
 
+export const articles = await getCollection("conferences");
 
-export async function getStaticPaths({ paginate }) {
-  const articles = await getCollection("conferences");
+export async function uniqueConfTags() {
   const confTags = articles.flatMap((article) => {
     return article.data.conference || [];
   });
+  return [...new Set(confTags)];
+}
 
+export async function getStaticPaths({ paginate }) {
+  const confTags = await uniqueConfTags();
   return confTags.flatMap((conf) => {
     const filteredArticles = articles.filter((article) => {
       return article.data.conference?.includes(conf);
     });
-    console.log(filteredArticles);
+
     return paginate(filteredArticles, {
       params: { conf: conf },
       pageSize: 10,
@@ -29,15 +34,21 @@ const params = Astro.params;
 ---
 <BaseLayout title="Conferences" sideBarActiveItemID="conferences">
   <div class="w-full max-w-none px-4 sm:px-6 lg:px-8">
-
     <div class="mb-5">
-      <div class="text-4xl w-full font-bold">All Notes from Conference '{params.conf}'</div>
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex-none">
+          <NaviLink url="/conferences" />
+        </div>
+        <div class="text-4xl w-full font-bold">Notes from Conference '{params.conf}'</div>
+      </div>
       <div class="my-6">
-        All conference summaries in one place. Please note that the information provided here is based on personal note that were taken during the according conference.
-        The information may not be accurate or up-to-date.
+        All conference summaries in one place. Please note that the information provided here is based on personal note that were taken during the according event.
+        At the time of reading, the information may not be accurate or up-to-date anymore.
         For the most up-to-date information, please visit the conference website.
       </div>
     </div>
+
+    <div class="divider my-0" />
 
     {
       page.data.length === 0 ? (
@@ -46,6 +57,8 @@ const params = Astro.params;
           <p>There are no conference summaries to show at the moment. Check back later!</p>
         </div>
       ) : (
+      <div>
+        <h2 class="title text-2xl my-6 font-bold">Conference Notes</h2>      
         <ul>
           {page.data.map((conf) => {
             const displayDate = dayjs(conf.data.eventDate).format("lll");
@@ -58,11 +71,12 @@ const params = Astro.params;
                 target="_self"
                 badge={conf.data.conference}
                 tags={conf.data.tags}
-              />
+                />
               <div class="divider my-0" />
             </>
           })}
         </ul>
+      </div>
       )
     }
 

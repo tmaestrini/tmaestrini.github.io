@@ -1,0 +1,15 @@
+---
+interface Props {
+    tagsList: string[];
+}
+
+const { tagsList } = Astro.props;
+---
+
+<div class="my-4">
+    {tagsList.map((confTag) => (
+         <a class="badge badge-secondary rounded-full no-underline font-bold"
+          href={`/conferences/conf/${confTag}`}>{confTag}</a>
+        ))
+    }
+</div>
