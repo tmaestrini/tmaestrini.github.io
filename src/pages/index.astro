@@ -5,7 +5,9 @@ import { getCollection } from "astro:content";
 import createSlug from "../lib/createSlug"
 import dayjs from "dayjs";
 
-const topics = (await getCollection("topics")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const topics = (await getCollection("topics"))
+    .filter((a) => !a.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const conferences = (await getCollection("conferences")).sort((a, b) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf());
 const presentations = (await getCollection("presentations")).sort((a, b) => b.data.presentation.valueOf() - a.data.presentation.valueOf());
 

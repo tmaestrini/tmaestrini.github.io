@@ -5,8 +5,9 @@ import { getCollection } from "astro:content";
 import createSlug from "../../lib/createSlug";
 
 export async function getStaticPaths({ paginate }) {
-  const topics = await getCollection("topics");
-  topics    .filter(a => !a.data.draft)    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const topics = (await getCollection("topics"))
+    .filter((a) => !a.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return paginate(topics, { pageSize: 10 });
 }
 
