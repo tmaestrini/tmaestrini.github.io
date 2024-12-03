@@ -9,13 +9,14 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 
 dayjs.extend(localizedFormat);
 
+export const articles = await getCollection("conferences");
+export const filteredArticles = articles.filter((a: any) => !a.draft).sort((a:any, b:any) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf());
+
 export async function getStaticPaths({ paginate }) {
-  const articles = await getCollection("conferences");
-  articles.filter((a: any) => !a.draft).sort((a:any, b:any) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf());
-  return paginate(articles, { pageSize: 10 });
+  return paginate(filteredArticles, { pageSize: 10 });
 }
 
-const allConferencesTags = (await getCollection("conferences")).filter((a: any) => !a.draft).flatMap(conf => conf.data.conference);
+const allConferencesTags = filteredArticles.flatMap(conf => conf.data.conference);
 const allConferencesTagsUnique = [...new Set(allConferencesTags)];
 const { page } = Astro.props;
 ---
@@ -23,8 +24,7 @@ const { page } = Astro.props;
 <BaseLayout title="Conferences" sideBarActiveItemID="conferences">
   <div class="w-full max-w-none px-4 sm:px-6 lg:px-8">
 
-    <div class="mb-5 mt-11
-    ">
+    <div class="mb-5 mt-11">
       <div class="text-4xl w-full font-bold">Notes from Conferences (Full List)</div>
       <div class="my-6">
         All conference summaries in one place. Please note that the information provided here is based on personal note that were taken during the according event.

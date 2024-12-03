@@ -20,7 +20,7 @@ export async function getStaticPaths({ paginate }) {
   return confTags.flatMap((conf) => {
     const filteredArticles = articles.filter((article) => {
       return article.data.conference?.includes(conf);
-    });
+    }).sort((a:any, b:any) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf());
 
     return paginate(filteredArticles, {
       params: { conf: conf },
