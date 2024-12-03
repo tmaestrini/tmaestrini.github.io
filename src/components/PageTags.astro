@@ -8,7 +8,7 @@ const { tagsList } = Astro.props;
 
 <div class="my-4">
     {tagsList.map((confTag) => (
-         <a class="badge badge-secondary rounded-full no-underline font-bold"
+         <a class="badge badge-secondary rounded-full no-underline font-bold mr-1"
           href={`/conferences/conf/${confTag}`}>{confTag}</a>
         ))
     }
