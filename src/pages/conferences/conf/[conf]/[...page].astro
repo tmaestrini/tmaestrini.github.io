@@ -4,6 +4,7 @@ import HorizontalCard from "../../../../components/HorizontalCard.astro";
 import { getCollection } from "astro:content";
 import createSlug from "../../../../lib/createSlug";
 import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import NaviLink from "@components/NaviLink.astro";
 
 export const articles = await getCollection("conferences");
@@ -28,6 +29,8 @@ export async function getStaticPaths({ paginate }) {
     });
   });
 }
+
+dayjs.extend(localizedFormat);
 
 const { page } = Astro.props;
 const params = Astro.params;
