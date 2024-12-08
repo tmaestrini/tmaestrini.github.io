@@ -1,0 +1,43 @@
+---
+import NaviLink from "@components/NaviLink.astro";
+import PageTags from "../../components/PageTags.astro";
+
+interface Props {
+    data: any[];
+    title: string;
+    showConfFilter?: boolean;
+    naviLinkUrl?: string;
+}
+
+const { data: conferences, title, showConfFilter, naviLinkUrl } = Astro.props;
+const params = Astro.params;
+
+const allConferencesTags = conferences.flatMap(
+    (conf) => conf.data.conference,
+);
+
+const allConferencesTagsUnique = [...new Set(allConferencesTags)];
+---
+
+<div class="mb-5">
+    <div class="flex items-center justify-between mb-5">
+      {naviLinkUrl && <div class="flex-none">
+        <NaviLink url={naviLinkUrl} />
+      </div>}
+      <div class="text-4xl w-full font-bold">{title}</div>
+    </div>
+    <div class="my-6">
+        All conference summaries in one place. Please note that the information
+        provided here is based on personal notes that were taken during the
+        respective event. Therefore, the information may not be
+        accurate or up-to-date anymore at the time of reading this conference note.<br>
+        For the most up-to-date information about the conference,
+        please visit the official conference website.
+    </div>
+  </div>
+
+{ showConfFilter &&
+    <h2 class="title my-2 text-xl font-bold">Filter by Conference</h2>
+    <PageTags tagsList={allConferencesTagsUnique} badgeStyle={'filled'} listUrl="/conferences/conf">
+}
+<div class="divider my-0"></div>

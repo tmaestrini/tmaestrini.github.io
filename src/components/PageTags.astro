@@ -1,15 +1,17 @@
 ---
 interface Props {
     tagsList: string[];
+    listUrl: string;
+    badgeStyle?: 'filled' | 'outline';
 }
 
-const { tagsList } = Astro.props;
+const { tagsList, badgeStyle, listUrl } = Astro.props;
 ---
 
 <div class="my-4">
     {tagsList.map((confTag) => (
-         <a class="badge badge-secondary rounded-full no-underline font-bold mr-1"
-          href={`/conferences/conf/${confTag}`}>{confTag}</a>
+         <a class={`badge ${badgeStyle === 'filled' ? 'badge-primary font-bold' : 'badge-outline'} rounded-full no-underline mr-1`}
+          href={`${listUrl}/${confTag}`}>{confTag}</a>
         ))
     }
 </div>

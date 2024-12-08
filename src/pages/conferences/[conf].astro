@@ -6,7 +6,7 @@ import ConferenceLayout from "@layouts/ConferenceLayout.astro";
 export async function getStaticPaths() {
   const confEntries = await getCollection("conferences");
   return confEntries.map((entry) => ({
-    params: { slug: createSlug(entry.data.title, entry.slug) },
+    params: { conf: createSlug(entry.data.title, entry.slug) },
     props: { entry },
   }));
 }

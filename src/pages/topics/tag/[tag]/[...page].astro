@@ -1,20 +1,22 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import HorizontalCard from "@components/HorizontalCard.astro";
-import { getCollection } from "astro:content";
 import createSlug from "../../../../lib/createSlug";
+import * as data from "../../../../lib/dataHelpers";
+import TopicsHeader from "@components/topics/TopicsHeader.astro";
+
+export const topics = await data.Topics.getTopicsSortedByDate();
 
 export async function getStaticPaths({ paginate }) {
-  const articles = await getCollection("topics");
-  const tags = articles.flatMap((article) => {
+  const tags = topics.flatMap((article) => {
     return article.data.tags || [];
   });
 
   return tags.flatMap((tag) => {
-    const filteredArticles = articles.filter((article) => {
-      return article.data.tags?.includes(tag);
+    const topicsWithSelectedTag = topics.filter((topic) => {
+      return topic.data.tags?.includes(tag);
     });
-    return paginate(filteredArticles, {
+    return paginate(topicsWithSelectedTag, {
       params: { tag },
       pageSize: 10,
     });
@@ -26,9 +28,8 @@ const params = Astro.params;
 ---
 
 <BaseLayout title={`Topics on '${params.tag}`} sideBarActiveItemID="topics">
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Topics on '{params.tag}'</div>
-  </div>
+  <TopicsHeader data={topics} title={`Topics on '${params.tag}'`}
+    naviLinkUrl="javascript:history.back()"/>
   {
     page.data.length === 0 ? (
       <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">

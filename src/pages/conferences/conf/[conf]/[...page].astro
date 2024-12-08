@@ -1,17 +1,18 @@
 ---
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import HorizontalCard from "../../../../components/HorizontalCard.astro";
-import { getCollection } from "astro:content";
 import createSlug from "../../../../lib/createSlug";
+import * as data from '../../../../lib/dataHelpers';
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import NaviLink from "@components/NaviLink.astro";
+import ConferenceNotesHeader from "@components/conferences/ConferenceNotesHeader.astro";
+import ConferenceCard from "@components/conferences/ConferenceCard.astro";
 
-export const articles = await getCollection("conferences");
+export const conferences = await data.Conferences.getConferencesSortedByDate();
 
 export async function uniqueConfTags() {
-  const confTags = articles.flatMap((article) => {
-    return article.data.conference || [];
+  const confTags = conferences.flatMap((conference) => {
+    return conference.data.conference || [];
   });
   return [...new Set(confTags)];
 }
@@ -19,7 +20,7 @@ export async function uniqueConfTags() {
 export async function getStaticPaths({ paginate }) {
   const confTags = await uniqueConfTags();
   return confTags.flatMap((conf) => {
-    const filteredArticles = articles.filter((article) => {
+    const filteredArticles = conferences.filter((article) => {
       return article.data.conference?.includes(conf);
     }).sort((a:any, b:any) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf());
 
@@ -37,22 +38,7 @@ const params = Astro.params;
 ---
 <BaseLayout title="Conferences" sideBarActiveItemID="conferences">
   <div class="w-full max-w-none px-4 sm:px-6 lg:px-8">
-    <div class="mb-5">
-      <div class="flex items-center justify-between mb-5">
-        <div class="flex-none">
-          <NaviLink url="/conferences" />
-        </div>
-        <div class="text-4xl w-full font-bold">Notes from Conference '{params.conf}'</div>
-      </div>
-      <div class="my-6">
-        All conference summaries in one place. Please note that the information provided here is based on personal note that were taken during the according event.
-        At the time of reading, the information may not be accurate or up-to-date anymore.
-        For the most up-to-date information, please visit the conference website.
-      </div>
-    </div>
-
-    <div class="divider my-0" />
-
+    <ConferenceNotesHeader data={conferences} title={`Notes from Conference '${params.conf}'`} naviLinkUrl="/conferences"/>
     {
       page.data.length === 0 ? (
       <div class="bg-base-200 border-l-4 border-secondary w-full p-4">
@@ -66,15 +52,7 @@ const params = Astro.params;
           {page.data.map((conf) => {
             const displayDate = dayjs(conf.data.eventDate).format("lll");
             return <>
-              <HorizontalCard
-                title={conf.data.title}
-                img={conf.data.heroImage}
-                date={displayDate}
-                url={"/conferences/" + createSlug(conf.data.title, conf.slug)}
-                target="_self"
-                badge={conf.data.conference}
-                tags={conf.data.tags}
-                />
+              <ConferenceCard conference={conf}/>
               <div class="divider my-0" />
             </>
           })}

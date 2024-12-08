@@ -1,0 +1,40 @@
+---
+import NaviLink from "@components/NaviLink.astro";
+import PageTags from "../../components/PageTags.astro";
+
+interface Props {
+    data: any[];
+    title: string;
+    showTopicsTags?: boolean;
+    naviLinkUrl?: string;
+}
+
+const { data: topics, title, showTopicsTags, naviLinkUrl } = Astro.props;
+const params = Astro.params;
+
+const topicsTags = topics.flatMap((topic) => (topic.data.tags));
+const topicCategories = topics.flatMap((topic) => (topic.data.categories));
+
+const uniqueTopicsTags = [...new Set(topicsTags)];
+const uniqueTopicsCategories = [...new Set(topicCategories)];
+---
+
+<div class="mb-5">
+    <div class="flex items-center justify-between mb-5">
+      {naviLinkUrl && <div class="flex-none">
+        <NaviLink url={naviLinkUrl} />
+      </div>}
+      <div class="text-4xl w-full font-bold">{title}</div>
+    </div>
+    <div class="my-6">
+      All topics in one place. 
+      Although most of the content is inspired by many discussions with my fellow friends or my daily work, 
+      all opinions are my own. None of the content is related to any paradigms or corporate policies of any of my (former) employers.
+    </div>
+  </div>
+
+{ showTopicsTags &&
+    <h2 class="title my-2 text-xl font-bold">Filter by Tags</h2>
+    <PageTags tagsList={uniqueTopicsTags} listUrl="/topics/tag"/>
+}
+<div class="divider my-0"></div>
