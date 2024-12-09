@@ -11,5 +11,10 @@ export default defineConfig({
   build: {
     format: "file",
   },
+  markdown: {
+    shikiConfig: {
+      theme: 'dracula',
+    },
+  },
   integrations: [mdx(), sitemap(), tailwind(), pagefind(), react()]
 });
