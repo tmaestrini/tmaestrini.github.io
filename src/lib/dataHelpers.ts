@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import createSlug from "./createSlug";
 
 export namespace Conferences {
 
@@ -12,6 +13,11 @@ export namespace Conferences {
         return filteredArticles;
     }
 
+    export async function getSpeakerBySlug(speakerSlug: string) {
+        const conferences = await getCollection("conferences");
+        const conferencesOfSpeaker = conferences.filter(conf => conf.data?.speakers?.map(speaker => createSlug(speaker, speaker)).includes(speakerSlug));
+        return conferencesOfSpeaker?.[0].data.speakers?.[0];
+    }
 }
 
 export namespace Topics {
