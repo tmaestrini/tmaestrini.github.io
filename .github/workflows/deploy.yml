@@ -38,7 +38,12 @@ jobs:
           rm -rf node_modules package-lock.json
           npm cache clean --force
           npm install
-          
+      
+      - name: Install Playwright (for mermaid diagrams support)
+        run: npm install -D @playwright/test@latest
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+    
       - name: Install platform specific dependencies
         run: npm install @rollup/rollup-linux-x64-gnu
         
