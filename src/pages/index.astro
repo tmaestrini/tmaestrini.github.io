@@ -12,19 +12,19 @@ const conferences = (await getCollection("conferences")).sort((a, b) => b.data.e
 const presentations = (await getCollection("presentations")).sort((a, b) => b.data.presentation.valueOf() - a.data.presentation.valueOf());
 
 const latest_topics = topics.slice(0, 6);
-const latest_conferences = conferences.slice(0, 3);
+const latest_conferences = conferences.slice(0, 6);
 const latest_presentations = presentations.slice(0, 3);
 ---
 
 <BaseLayout sideBarActiveItemID="home">
   <div class="pb-12 mt-5">
     <div class="text-xl py-1">Hey there 👋</div>
-    <div class="text-5xl font-bold">I'm Tobias Maestrini</div>
+    <div class="text-5xl font-bold">Hello, I'm Tobias Maestrini</div>
     <div class="text-3xl py-3 font-bold">Microsoft 365 Enthusiast & Consultant from Switzerland</div>
     <div class="py-2">
       <text class="text-lg">
         👨🏻‍🏫  Microsoft 365 Consultant (SharePoint & Power Platform) | 👨🏻‍💻 Loves Coding | 🏆 Microsoft MVP<br/> 
-        🧍🏻‍♂️👭 Stressed but happy Father ❤️
+        🧍🏻‍♂️+👭 = stressed but happy Father ❤️
       </text>
     </div>
     <div class="mt-8">
@@ -74,7 +74,7 @@ const latest_presentations = presentations.slice(0, 3);
               class="rounded-xl object-cover aspect-[2/1]">
           </picture>
           <div class="text-3xl font-bold flex items-center">
-            <a href="/topics" class="font-bold dark:text-primary-400 dark:hover:text-primary-300 no-underline">Topics</a>
+            <a href="/topics" class="font-bold hover:text-blue-900 dark:text-primary-400 dark:hover:text-primary-300 no-underline">Topics</a>
           </div>
           <p>
             Curated insights and reflections from «my» world of technology — 
@@ -94,7 +94,7 @@ const latest_presentations = presentations.slice(0, 3);
               class="rounded-xl object-cover aspect-[2/1]">
           </picture>
           <div class="text-3xl flex font-bold items-center">
-            <a href="/conferences" class="font-bold dark:text-primary-400 dark:hover:text-primary-300 no-underline">Conferences</a>
+            <a href="/conferences" class="font-bold hover:text-blue-900 dark:text-primary-400 dark:hover:text-primary-300 no-underline">Conferences</a>
           </div>
           <p>
             Notes from conferences and events I have attended — 
@@ -114,7 +114,7 @@ const latest_presentations = presentations.slice(0, 3);
               class="rounded-xl object-cover aspect-[2/1]">
           </picture>
           <div class="text-3xl font-bold flex items-center">
-            <a href="/presentations" class="font-bold dark:text-primary-400 dark:hover:text-primary-300 no-underline">Presentations</a>
+            <a href="/presentations" class="font-bold hover:text-blue-900 dark:text-primary-400 dark:hover:text-primary-300 no-underline">Presentations</a>
           </div>
           <p>
             Presentations and talks I have given at various events — 
