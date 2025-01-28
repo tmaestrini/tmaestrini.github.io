@@ -1,0 +1,34 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+  title?: string;
+}
+const { headings, title } = Astro.props;
+
+const toc = headings
+  .filter((heading) => heading.depth >= 2)
+  .map((heading) => ({
+    title: heading.text,
+    level: heading.depth,
+    slug: heading.slug,
+  }));
+---
+
+  {
+    toc.length > 0 && (
+      <nav class="sidebar">
+        <div class="toc-title">{title ?? 'Content'}</div>
+        <ul>
+          {toc.map((item) => (
+            <li
+              class={`toc-item level-${item.level} ml-${item.level + 1}`}
+            >
+              <a href={`#${item.slug}`}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
