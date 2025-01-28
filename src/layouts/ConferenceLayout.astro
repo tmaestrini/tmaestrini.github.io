@@ -21,10 +21,13 @@ const {
   speakers = [],
 } = entry.data;
 
+const { Content, headings } = await entry.render();
+
 dayjs.extend(localizedFormat);
 const displayDate = dayjs(eventDate).format("lll");
 import { Image } from "astro:assets";
 import createSlug from "src/lib/createSlug";
+import TableOfContents from "src/lib/TableOfContents.astro";
 ---
 
 <BaseLayout title={title} description={description} image={heroImage}, ogType="article">
@@ -74,7 +77,13 @@ import createSlug from "src/lib/createSlug";
           ))
       }
       <div class="divider my-2"></div>
-      <slot />
+
+      <div class="toc-wrapper">
+        <TableOfContents headings={headings}/>
+        <div class="content">
+          <Content />
+        </div>
+      </div>
     </article>
   </main>
 </BaseLayout>

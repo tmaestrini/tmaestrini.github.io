@@ -16,9 +16,6 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
 ---
 
-<ConferenceLayout entry={entry}>
-  <Content />
-</ConferenceLayout>
+<ConferenceLayout entry={entry}/>
