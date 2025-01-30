@@ -16,6 +16,12 @@
     }
 }
 
+/* Prose: hack to reduce the whitespace between paragraphs */
+.prose :where(p):not(:where([class~=not-prose],[class~=not-prose] *)){
+    margin-top: 1em;
+    margin-bottom: inherit;
+}
+
 /* Table Of Content */
 .toc-wrapper {
     display: flex;
