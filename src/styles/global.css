@@ -43,8 +43,8 @@
         background-color: white;
         margin: 2rem 0;
         position: sticky;
-        max-width: 350px;
-        width: 350px;
+        max-width: 320px;
+        width: 320px;
 
         @media screen and (max-width: 768px) {
             position: inherit;
