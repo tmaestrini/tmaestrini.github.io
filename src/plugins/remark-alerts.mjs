@@ -6,29 +6,39 @@ function transformTitleCase(text) {
 
 export function remarkAlerts() {
   return (tree) => {
-    visit(tree, (node, index, parent) => {
-      // Check for both paragraph and blockquote nodes
-      if (node.type !== 'paragraph' && node.type !== 'blockquote') return;
+    visit(tree, 'blockquote', (node, index, parent) => {
+      const firstParagraph = node.children[0];
+      if (!firstParagraph || firstParagraph.type !== 'paragraph') return;
 
-      const firstChild = node.type === 'blockquote' ? node.children[0]?.children[0] : node.children[0];
+      const firstChild = firstParagraph.children[0];
       if (!firstChild || firstChild.type !== 'text') return;
 
-      const match = firstChild.value.match(/^\*?\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(.*)/);
+      const match = firstChild.value.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/);
       if (!match) return;
 
       const type = match[1].toLowerCase();
-      // Remove quotes from content if they exist
-      const content = match[2].replace(/^["'](.*)["']$/, '$1');
 
-      const htmlNode = {
+      // Remove the alert syntax from the first paragraph's text
+      firstParagraph.children[0].value = firstParagraph.children[0].value.replace(match[0], '').trim();
+      
+      // If first paragraph is empty after removing alert syntax, remove it
+      if (!firstParagraph.children[0].value) {
+        node.children.shift();
+      }
+
+      const wrapperStart = {
         type: 'html',
         value: `<div class="markdown-alert markdown-alert-${type}" dir="auto">
-          <p class="markdown-alert-title" dir="auto">${getAlertIcon(type)}${transformTitleCase(match[1])}</p>
-          <p>${content}</p>
-          </div>`
+          <p class="markdown-alert-title" dir="auto">${getAlertIcon(type)}${transformTitleCase(match[1])}</p>`
       };
 
-      parent.children.splice(index, 1, htmlNode);
+      const wrapperEnd = {
+        type: 'html',
+        value: '</div>'
+      };
+
+      // Replace the blockquote with our alert wrapper
+      parent.children.splice(index, 1, wrapperStart, ...node.children, wrapperEnd);
     });
   };
 }
