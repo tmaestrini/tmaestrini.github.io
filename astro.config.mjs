@@ -5,6 +5,7 @@ import tailwind from "@astrojs/tailwind";
 import pagefind from "astro-pagefind";
 import react from '@astrojs/react';
 import remarkMermaid from 'remark-mermaidjs';
+import { remarkAlerts } from './src/plugins/remark-alerts.mjs';
 
 // https://astro.build/config
 const mermaidConfig = {
@@ -23,7 +24,7 @@ export default defineConfig({
     shikiConfig: {
       theme: 'dracula',
     },
-    remarkPlugins: [[remarkMermaid, mermaidConfig]],
+    remarkPlugins: [[remarkMermaid, mermaidConfig], remarkAlerts],
   },
   integrations: [
     mdx({
