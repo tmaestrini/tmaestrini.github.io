@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';  // Add this import
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from "@astrojs/tailwind";
@@ -18,10 +17,6 @@ const mermaidConfig = {
 
 export default defineConfig({
   site: 'https://tmaestrini.github.io',
-  output: 'hybrid',  // Change from static to hybrid mode
-  adapter: node({
-    mode: 'standalone'
-  }),
   build: {
     format: "file",
   },
