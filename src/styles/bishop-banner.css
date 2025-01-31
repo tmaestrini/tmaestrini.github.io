@@ -1,0 +1,47 @@
+@keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.corner-banner {
+    position: fixed;
+    top: 30px;
+    right: -50px;
+    width: 250px;
+    background: linear-gradient(
+        45deg,
+        #ffd700,
+        #f7ce45,
+        #ffb700,
+        #ffd700,
+        #fff6a3,
+        #ffb700
+    );
+    background-size: 200% 200%;
+    animation: shimmer 5s ease infinite;
+    text-align: center;
+    line-height: 40px;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    transform: rotate(35deg);
+    -webkit-transform: rotate(35deg);
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    z-index: 9999;
+}
+
+.corner-banner:hover {
+    background: linear-gradient(
+        45deg,
+        #fff6a3,
+        #ffd700,
+        #ffed4a,
+        #fff6a3,
+        #ffd700,
+        #ffed4a
+    );
+    background-size: 200% 200%;
+    animation: shimmer 3s ease infinite;
+}
