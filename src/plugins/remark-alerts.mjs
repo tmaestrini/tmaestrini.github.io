@@ -1,5 +1,9 @@
 import { visit } from 'unist-util-visit';
 
+function transformTitleCase(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
+
 export function remarkAlerts() {
   return (tree) => {
     visit(tree, (node, index, parent) => {
@@ -19,7 +23,7 @@ export function remarkAlerts() {
       const htmlNode = {
         type: 'html',
         value: `<div class="markdown-alert markdown-alert-${type}" dir="auto">
-          <p class="markdown-alert-title" dir="auto">${getAlertIcon(type)}${match[1]}</p>
+          <p class="markdown-alert-title" dir="auto">${getAlertIcon(type)}${transformTitleCase(match[1])}</p>
           <p>${content}</p>
           </div>`
       };
