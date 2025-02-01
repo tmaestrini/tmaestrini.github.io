@@ -22,7 +22,11 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      theme: 'dracula',
+      themes: {
+        light: 'catppuccin-latte', // alternative: 'material-theme-lighter'
+        dark: 'github-dark'
+      },
+      wrap: true,
     },
     remarkPlugins: [[remarkMermaid, mermaidConfig], remarkAlerts],
   },

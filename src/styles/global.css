@@ -5,10 +5,6 @@
 .content {
     display: grid;
 
-    h2:first-of-type {
-        margin-top: 1em;
-    }
-
     h3 {
         font-size: 1.3em;
         text-decoration: underline;
@@ -17,11 +13,35 @@
 }
 
 /* Prose: hack to reduce the whitespace between paragraphs */
-.prose :where(p):not(:where([class~=not-prose],[class~=not-prose] *)){
+.prose :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
     margin-top: 1em;
     margin-bottom: inherit;
 }
 
 .prose {
     line-height: 1.5;
+}
+
+code {
+    counter-reset: step;
+    counter-increment: step 0;
+
+    .line:empty::before {
+        display: none;
+    }
+
+    .line:last-child:empty {
+        display: none;
+    }
+}
+
+/* Only show line numbers if code block has more than one line */
+pre:not([data-language="plaintext"]):not([data-language="text"]) code .line::before {
+    content: counter(step);
+    counter-increment: step;
+    width: 1.5rem;
+    margin-right: 1.5rem;
+    display: inline-block;
+    text-align: right;
+    color: rgba(115, 138, 148, .4)
 }
