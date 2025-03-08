@@ -4,12 +4,17 @@
 
 .content {
     display: grid;
+    margin-top: 2rem;
 
     h3 {
         font-size: 1.3em;
         text-decoration: underline;
         text-underline-offset: 0.5rem;
     }
+
+    :where(h2):first-child {
+        margin-top: 0em;
+    }    
 }
 
 /* Prose: hack to reduce the whitespace between paragraphs */
