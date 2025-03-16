@@ -20,8 +20,13 @@
 /* Prose: hack to reduce the whitespace between paragraphs */
 .prose :where(p):not(:where([class~=not-prose], [class~=not-prose] *)) {
     /* margin-top: 1em; */
-    margin-top: 0em;
+    margin-top: 0.5em;
     margin-bottom: inherit;
+}
+
+/* Prose: hack to remove the whitespace before the first paragraph of the page */
+.prose :where(p):first-child {
+    margin-top: 0;
 }
 
 .prose {
