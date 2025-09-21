@@ -20,6 +20,15 @@ export namespace Conferences {
     }
 }
 
+export namespace Presentations {
+    export async function getPresentationsSorted() {
+        const presentations = new Set((await getCollection("presentations"))
+            .sort((a, b) => b.data.event?.valueOf() - a.data.event?.valueOf() )
+            .flatMap((a) => a.data?.event ? [a.data.event] : []));
+        return [...presentations];
+    }
+}
+
 export namespace Topics {
     export async function getTopicsSortedByDate() {
         const topics = (await getCollection("topics"))
