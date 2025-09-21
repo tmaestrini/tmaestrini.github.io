@@ -30,19 +30,19 @@ const { page } = Astro.props;
       </div>
     ) : (
       <ul>
-        {page.data.map((post) => {
-          const displayDate = dayjs(post.data.presentation).format("lll");
-          const image = post.data.heroImage ? post.data.heroImage : `/presentations.png`;
+        {page.data.map((presentation) => {
+          const displayDate = dayjs(presentation.data.presentation).format("lll");
+          const image = presentation.data.heroImage ? presentation.data.heroImage : `/presentations.png`;
 
           return <>
             <HorizontalCard
-              title={post.data.title}
+              title={presentation.data.title}
               img={image}
               date={displayDate}
-              url={"/presentations/" + createSlug(post.data.title, post.slug)}
+              url={"/presentations/" + createSlug(presentation.data.title, presentation.slug)}
               target="_self"
-              badge={post.data.conference}
-              tags={post.data.tags}
+              badge={presentation.data.event}
+              tags={presentation.data.tags}
             />
             <div class="divider my-0" />
           </>
