@@ -37,7 +37,7 @@ const { presentations, eventName } = Astro.props;
 const params = Astro.params;
 ---
 
-<BaseLayout title="Presentations" sideBarActiveItemID="presentations">
+<BaseLayout title="Presentations or Speeches" sideBarActiveItemID="presentations">
   <div class="w-full max-w-none px-4 sm:px-6 lg:px-8">
     <div class="mb-5">
       <PresentationsHeader
@@ -57,18 +57,19 @@ const params = Astro.params;
         </div>
       ) : (
         <div>
-          <h2 class="title text-2xl my-6 font-bold">Presentations</h2>
+          <h2 class="title text-2xl my-6 font-bold">Presentations or Speeches</h2>
           <ul>
             {presentations.map((presentation) => {
               const displayDate = dayjs(presentation.data.presentation).format(
-                "lll",
+                "ll",
               );
+              console.log(displayDate);
               return (
                 <>
                   <HorizontalCard
                     title={presentation.data.title}
                     img={presentation.data.heroImage}
-                    date={presentation.data.description}
+                    date={displayDate}
                     url={`/presentations/${createSlug(presentation.data.title, presentation.slug)}`}
                     target="_self"
                     badge={presentation.data.event}

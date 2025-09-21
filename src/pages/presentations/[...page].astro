@@ -46,7 +46,7 @@ const { page } = Astro.props;
       <ul>
         {page.data.map((presentation) => {
           const displayDate = dayjs(presentation.data.presentation).format(
-            "lll",
+            "ll",
           );
           const image = presentation.data.heroImage
             ? presentation.data.heroImage
