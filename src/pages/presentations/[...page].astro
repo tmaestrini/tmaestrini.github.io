@@ -2,50 +2,73 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import HorizontalCard from "../../components/HorizontalCard.astro";
 import { getCollection } from "astro:content";
-import createSlug from "../../lib/createSlug"
+import createSlug from "../../lib/createSlug";
+import * as helper from "../../lib/dataHelpers";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import PresentationsHeader from "@components/presentations/PresentationsHeader.astro";
 
 dayjs.extend(localizedFormat);
 
 export async function getStaticPaths({ paginate }) {
   const articles = await getCollection("presentations");
-  articles.sort((a, b) => b.data.presentation.valueOf() - a.data.presentation.valueOf());
+  articles.sort(
+    (a, b) => b.data.presentation.valueOf() - a.data.presentation.valueOf(),
+  );
   return paginate(articles, { pageSize: 10 });
 }
+
+export const presentations =
+  await helper.Presentations.getPresentationsSorted();
 
 const { page } = Astro.props;
 ---
 
 <BaseLayout title="Presentations" sideBarActiveItemID="presentations">
   <div class="mb-5">
-    <div class="text-4xl w-full font-bold">Presentations</div>
+    <PresentationsHeader
+      data={presentations}
+      title={`Presentations or Speeches (Full List)`}
+      showPresentationFilter
+    />
   </div>
 
   {
     page.data.length === 0 ? (
       <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
         <p class="font-bold">Sorry!</p>
-        <p>There are no conference summaries to show at the moment. Check back later!</p>
+        <p>
+          There are no presentations or speeches from events to show at the moment. Check back
+          later!
+        </p>
       </div>
     ) : (
       <ul>
         {page.data.map((presentation) => {
-          const displayDate = dayjs(presentation.data.presentation).format("lll");
-          const image = presentation.data.heroImage ? presentation.data.heroImage : `/presentations.png`;
+          const displayDate = dayjs(presentation.data.presentation).format(
+            "lll",
+          );
+          const image = presentation.data.heroImage
+            ? presentation.data.heroImage
+            : `/presentations.png`;
 
-          return <>
-            <HorizontalCard
-              title={presentation.data.title}
-              img={image}
-              date={displayDate}
-              url={"/presentations/" + createSlug(presentation.data.title, presentation.slug)}
-              target="_self"
-              badge={presentation.data.event}
-              tags={presentation.data.tags}
-            />
-            <div class="divider my-0" />
-          </>
+          return (
+            <>
+              <HorizontalCard
+                title={presentation.data.title}
+                img={image}
+                date={displayDate}
+                url={
+                  "/presentations/" +
+                  createSlug(presentation.data.title, presentation.slug)
+                }
+                target="_self"
+                badge={presentation.data.event}
+                tags={presentation.data.tags}
+              />
+              <div class="divider my-0" />
+            </>
+          );
         })}
       </ul>
     )

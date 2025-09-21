@@ -5,13 +5,16 @@ interface Props {
     badgeStyle?: 'filled' | 'outline';
 }
 
+import createSlug from 'src/lib/createSlug';
+
 const { tagsList, badgeStyle, listUrl } = Astro.props;
+
 ---
 
 <div class="my-4">
-    {tagsList.map((confTag) => (
+    {tagsList.map((tag) => (
          <a class={`badge ${badgeStyle === 'filled' ? 'badge-primary font-bold' : 'badge-outline'} rounded-full no-underline mr-1`}
-          href={`${listUrl}/${confTag}`}>{confTag}</a>
+          href={`${listUrl}/${createSlug(tag,tag)}`}>{tag}</a>
         ))
     }
 </div>

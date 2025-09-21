@@ -1,0 +1,33 @@
+---
+import NaviLink from "@components/NaviLink.astro";
+import PageTags from "../../components/PageTags.astro";
+
+interface Props {
+    data: any[];
+    title: string;
+    showPresentationFilter?: boolean;
+    naviLinkUrl?: string;
+}
+
+const { data: presentations, title, showPresentationFilter, naviLinkUrl } = Astro.props;
+const params = Astro.params;
+
+---
+
+<div class="mb-5">
+    <div class="flex items-center justify-between mb-5">
+      {naviLinkUrl && <div class="flex-none">
+        <NaviLink url={naviLinkUrl} />
+      </div>}
+      <div class="text-4xl w-full font-bold">{title}</div>
+    </div>
+    <div class="my-6 ">
+        A collection of presentations or speeches I have given at Community Calls, Events or Conferences.
+    </div>
+  </div>
+
+{ showPresentationFilter &&
+    <h2 class="title my-2 text-xl font-bold">Filter by Presentation / Event</h2>
+    <PageTags tagsList={presentations} badgeStyle={'filled'} listUrl="/presentations/event" />
+}
+<div class="divider my-0"></div>

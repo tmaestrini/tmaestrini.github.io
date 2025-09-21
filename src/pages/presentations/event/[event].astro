@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import HorizontalCard from "@components/HorizontalCard.astro";
+import createSlug from "../../../lib/createSlug";
+import PresentationsHeader from "@components/presentations/PresentationsHeader.astro";
+
+export async function getStaticPaths() {
+  const presentations = await getCollection("presentations");
+
+  const eventTags = presentations.flatMap((presentation) => {
+    return presentation.data.event ? [presentation.data.event] : [];
+  });
+  const uniqueEventTags = [...new Set(eventTags)];
+
+  return uniqueEventTags.map((event) => {
+    const filteredPresentations = presentations
+      .filter((presentation) => {
+        return presentation.data.event === event;
+      })
+      .sort(
+        (a, b) => b.data.presentation.valueOf() - a.data.presentation.valueOf(),
+      );
+
+    return {
+      params: { event: createSlug(event, event) },
+      props: { presentations: filteredPresentations, eventName: event },
+    };
+  });
+}
+
+dayjs.extend(localizedFormat);
+
+const { presentations, eventName } = Astro.props;
+const params = Astro.params;
+---
+
+<BaseLayout title="Presentations" sideBarActiveItemID="presentations">
+  <div class="w-full max-w-none px-4 sm:px-6 lg:px-8">
+    <div class="mb-5">
+      <PresentationsHeader
+        data={presentations}
+        title={`Presentations on '${eventName}'`}
+        naviLinkUrl={`javascript:history.back()`}
+      />
+    </div>
+    {
+      presentations.length === 0 ? (
+        <div class="bg-base-200 border-l-4 border-secondary w-full p-4">
+          <p class="font-bold">Sorry!</p>
+          <p>
+            There are no presentations to show for this event at the moment.
+            Check back later!
+          </p>
+        </div>
+      ) : (
+        <div>
+          <h2 class="title text-2xl my-6 font-bold">Presentations</h2>
+          <ul>
+            {presentations.map((presentation) => {
+              const displayDate = dayjs(presentation.data.presentation).format(
+                "lll",
+              );
+              return (
+                <>
+                  <HorizontalCard
+                    title={presentation.data.title}
+                    img={presentation.data.heroImage}
+                    date={presentation.data.description}
+                    url={`/presentations/${createSlug(presentation.data.title, presentation.slug)}`}
+                    target="_self"
+                    badge={presentation.data.event}
+                  />
+                  <div class="divider my-0" />
+                </>
+              );
+            })}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
