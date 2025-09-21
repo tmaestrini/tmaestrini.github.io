@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import * as data from '../../../lib/dataHelpers';
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import ConferenceNotesHeader from "@components/conferences/ConferenceNotesHeader.astro";
+import ConferenceCard from "@components/conferences/ConferenceCard.astro";
+
+export const conferences = await data.Conferences.getConferencesSortedByDate();
+
+export async function uniqueConfTags() {
+  const confTags = conferences.flatMap((conference) => {
+    return conference.data.conference || [];
+  });
+  return [...new Set(confTags)];
+}
+
+export async function getStaticPaths() {
+  const confTags = await uniqueConfTags();
+  return confTags.map((conf) => {
+    const filteredArticles = conferences.filter((article) => {
+      return article.data.conference?.includes(conf);
+    }).sort((a:any, b:any) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf());
+
+    return {
+      params: { conf: conf.toLowerCase() },
+      props: { 
+        articles: filteredArticles,
+        originalConf: conf
+      }
+    };
+  });
+}
+
+dayjs.extend(localizedFormat);
+
+const { articles, originalConf } = Astro.props;
+const params = Astro.params;
+---
+<BaseLayout title="Conferences" sideBarActiveItemID="conferences">
+  <div class="w-full max-w-none px-4 sm:px-6 lg:px-8">
+    <ConferenceNotesHeader data={conferences} title={`Notes from Conference '${originalConf}'`} naviLinkUrl="/conferences"/>
+    {
+      articles.length === 0 ? (
+      <div class="bg-base-200 border-l-4 border-secondary w-full p-4">
+          <p class="font-bold">Sorry!</p>
+          <p>There are no conference summaries to show at the moment. Check back later!</p>
+        </div>
+      ) : (
+      <div>
+        <h2 class="title text-2xl my-6 font-bold">Conference Notes</h2>      
+        <ul>
+          {articles.map((conf) => {
+            const displayDate = dayjs(conf.data.eventDate).format("lll");
+            return <>
+              <ConferenceCard conference={conf}/>
+              <div class="divider my-0" />
+            </>
+          })}
+        </ul>
+      </div>
+      )
+  </div>
+</BaseLayout>
