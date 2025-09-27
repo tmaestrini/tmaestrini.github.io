@@ -25,18 +25,17 @@ const { page } = Astro.props;
         </div>
       ) : (
         <ul>
-          {page.data.map((post) => {
-            const image = post.data.heroImage ? post.data.heroImage : `/topics.png`;
-
+          {page.data.map((pageItem) => {
+            const image = pageItem.data.heroImage ? pageItem.data.heroImage : `/topics.png`;
             return <>
               <HorizontalCard
-                title={post.data.title}
+                title={pageItem.data.title}
                 img={image}
-                desc={post.data.description}
-                url={"/topics/" + createSlug(post.data.title, post.slug)}
+                desc={pageItem.data.description}
+                url={"/topics/" + createSlug(pageItem.data.title, pageItem.slug)}
                 target="_self"
-                badge={post.data.badge}
-                tags={post.data.tags}
+                badge={pageItem.data.badge}
+                tags={pageItem.data.tags}
               />
               <div class="divider my-0" />
             </>
