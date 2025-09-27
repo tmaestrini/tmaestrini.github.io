@@ -32,7 +32,6 @@ import TableOfContents from "src/lib/TableOfContents.astro";
   title={title}
   description={description}
   image={image}
-  ,
   ogType="article"
 >
   <main class="md:flex md:justify-center" data-pagefind-body>
@@ -66,7 +65,7 @@ import TableOfContents from "src/lib/TableOfContents.astro";
         categories &&
           categories.map((cat) => (
             <a
-              href={`/topics/category/${cat}`}
+              href={`/category/${createSlug(cat, cat)}`}
               class="badge rounded-full ml-2 no-underline"
             >
               {cat}
