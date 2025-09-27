@@ -5,19 +5,18 @@ import createSlug from "../../../../lib/createSlug";
 import * as data from "../../../../lib/dataHelpers";
 import TopicsHeader from "@components/topics/TopicsHeader.astro";
 
-export const topics = await data.Topics.getTopicsSortedByDate();
-
 export async function getStaticPaths({ paginate }) {
-  const tags = topics.flatMap((article) => {
+  const topics = await data.Topics.getTopicsSortedByDate();
+  const all_tags = topics.flatMap((article) => {
     return article.data.tags || [];
   });
 
-  return tags.flatMap((tag) => {
+  return all_tags.flatMap((tag) => {
     const topicsWithSelectedTag = topics.filter((topic) => {
       return topic.data.tags?.includes(tag);
     });
     return paginate(topicsWithSelectedTag, {
-      params: { tag },
+      params: { tag: createSlug(tag, tag) },
       pageSize: 10,
     });
   });
@@ -25,10 +24,15 @@ export async function getStaticPaths({ paginate }) {
 
 const { page } = Astro.props;
 const params = Astro.params;
+
+// Find the original tag by matching the slug
+const topics = await data.Topics.getTopicsSortedByDate();
+const allTags = topics.flatMap((article) => article.data.tags || []);
+const originalTag = allTags.find((tag) => createSlug(tag, tag) === params.tag) || params.tag;
 ---
 
-<BaseLayout title={`Topics on '${params.tag}`} sideBarActiveItemID="topics">
-  <TopicsHeader data={topics} title={`Topics on '${params.tag}'`}
+<BaseLayout title={`Topics on '${originalTag}'`} sideBarActiveItemID="topics">
+  <TopicsHeader data={topics} title={`Topics on '${originalTag}'`}
     naviLinkUrl="javascript:history.back()"/>
   {
     page.data.length === 0 ? (

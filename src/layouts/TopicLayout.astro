@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import createSlug from "../lib/createSlug";
 
 interface Props {
   entry: CollectionEntry<"topics">;
@@ -54,7 +55,7 @@ import TableOfContents from "src/lib/TableOfContents.astro";
         tags &&
           tags.map((tag) => (
             <a
-              href={`/topics/tag/${tag}`}
+              href={`/topics/tag/${createSlug(tag, tag)}`}
               class="badge badge-outline rounded-full ml-2 no-underline"
             >
               {tag}

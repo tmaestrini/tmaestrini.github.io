@@ -10,6 +10,7 @@ const {
   target = "_blank",
 } = Astro.props;
 import { Image } from "astro:assets";
+import createSlug from "src/lib/createSlug";
 const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
 ---
 
@@ -42,7 +43,7 @@ class="rounded-lg bg-base-200 hover:shadow-xl transition ease-in-out hover:scale
           {
             tags &&
               tags.map((tag) => (
-                <a href={`${tag_url}/${tag}`} class="badge badge-outline rounded-full">
+                <a href={`${tag_url}/${createSlug(tag, tag)}`} class="badge badge-outline rounded-full">
                   {tag}
                 </a>
               ))
