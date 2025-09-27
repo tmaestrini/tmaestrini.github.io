@@ -13,6 +13,11 @@ export namespace Conferences {
         return filteredArticles;
     }
 
+    export async function getConferencesByCategory(category: string) {
+        const conferences = await getConferencesSortedByDate();
+        return conferences.filter((conference) => conference.data.categories?.includes(category));
+    }
+
     export async function getSpeakerBySlug(speakerSlug: string) {
         const conferences = await getCollection("conferences");
         const conferencesOfSpeaker = conferences.filter(conf => conf.data?.speakers?.map(speaker => createSlug(speaker, speaker)).includes(speakerSlug));
@@ -27,6 +32,11 @@ export namespace Presentations {
             .flatMap((a) => a.data?.event ? [a.data.event] : []));
         return [...presentations];
     }
+
+    export async function getPresentationsByCategory(category: string) {
+        const presentations = await getPresentationsSorted();
+        return presentations.filter((presentation) => presentation.categories?.includes(category));
+    }
 }
 
 export namespace Topics {
@@ -36,4 +46,9 @@ export namespace Topics {
             .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
         return topics;
     }
-}
+
+    export async function getTopicsByCategory(category: string) {
+        const topics = await getTopicsSortedByDate();
+        return topics.filter((topic) => topic.data.categories?.includes(category));
+    
+    }}
