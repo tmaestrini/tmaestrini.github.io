@@ -15,8 +15,7 @@ const {
   description,
   draft,
   date,
-  updatedDate,
-  image,
+  preview,
   categories = [],
   tags = [],
 } = entry.data;
@@ -31,18 +30,18 @@ import TableOfContents from "src/lib/TableOfContents.astro";
 <BaseLayout
   title={title}
   description={description}
-  image={image}
+  image={preview}
   ogType="article"
 >
   <main class="md:flex md:justify-center" data-pagefind-body>
     <article class="prose prose-lg max-w-[1280px] prose-img:mx-auto">
       {
-        image && (
+        preview && (
           <Image
             width={750}
             height={422}
             format="webp"
-            src={image}
+            src={preview}
             alt={title}
             class="w-full mb-6"
           />
@@ -71,14 +70,6 @@ import TableOfContents from "src/lib/TableOfContents.astro";
               {cat}
             </a>
           ))
-      }
-      {
-        updatedDate && (
-          <div>
-            {" "}
-            Last updated on <time>{updatedDate}</time>{" "}
-          </div>
-        )
       }
       <div class="divider my-2"></div>
       <div class="toc-wrapper">

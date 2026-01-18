@@ -8,6 +8,7 @@ const conferences = defineCollection({
 		conference: z.string(),
 		speakers: z.array(z.string()).optional(),
 		type: z.string().optional(),
+        tags: z.array(z.string()).optional(),
 		categories: z.array(z.string()).optional(),
 		fmContentType: z.string().optional(),
 	}),
