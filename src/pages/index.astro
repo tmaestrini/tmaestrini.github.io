@@ -7,9 +7,21 @@ import dayjs from "dayjs";
 
 const topics = (await getCollection("topics"))
     .filter((a) => !a.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const conferences = (await getCollection("conferences")).sort((a, b) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf());
-const presentations = (await getCollection("presentations")).sort((a, b) => b.data.presentation.valueOf() - a.data.presentation.valueOf());
+    .sort((a, b) => {
+        const dateA = a.data.date?.valueOf() || 0;
+        const dateB = b.data.date?.valueOf() || 0;
+        return dateB - dateA;
+    });
+const conferences = (await getCollection("conferences")).sort((a, b) => {
+    const dateA = a.data.eventDate?.valueOf() || 0;
+    const dateB = b.data.eventDate?.valueOf() || 0;
+    return dateB - dateA;
+});
+const presentations = (await getCollection("presentations")).sort((a, b) => {
+    const dateA = a.data.presentation?.valueOf() || 0;
+    const dateB = b.data.presentation?.valueOf() || 0;
+    return dateB - dateA;
+});
 
 const latest_topics = topics.slice(0, 6);
 const latest_conferences = conferences.slice(0, 6);

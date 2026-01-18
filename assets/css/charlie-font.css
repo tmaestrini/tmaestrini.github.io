@@ -1,0 +1,31 @@
+@font-face {
+    font-family: 'Charlie Display';
+    src: url('./font/charlie-display-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Charlie Display';
+    src: url('./font/charlie-display-bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Charlie Display';
+    src: url('./font/charlie-display-light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Charlie Display';
+    src: url('./font/charlie-display-italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
