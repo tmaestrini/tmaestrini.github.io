@@ -3,6 +3,11 @@
 import { GENERATE_SLUG_FROM_TITLE } from '../config'
 
 export default function (title: string, staticSlug: string) {
+  // Handle non-string inputs
+  if (typeof title !== 'string') {
+    title = String(title || '');
+  }
+  
   return (
     !GENERATE_SLUG_FROM_TITLE ? staticSlug : title
       // remove leading & trailing whitespace
