@@ -21,7 +21,8 @@ export namespace Conferences {
     export async function getSpeakerBySlug(speakerSlug: string) {
         const conferences = await getCollection("conferences");
         const conferencesOfSpeaker = conferences.filter(conf => conf.data?.speakers?.map(speaker => createSlug(speaker, speaker)).includes(speakerSlug));
-        return conferencesOfSpeaker?.[0].data.speakers?.[0];
+        const speakers = conferencesOfSpeaker?.[0]?.data?.speakers || [];
+        return speakers.find(speaker => createSlug(speaker, speaker) === speakerSlug) || speakers[0];
     }
 }
 

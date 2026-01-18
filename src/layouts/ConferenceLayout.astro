@@ -42,10 +42,10 @@ import TableOfContents from "src/lib/TableOfContents.astro";
         {conference && <a class="badge badge-secondary rounded-full no-underline"
           href={`/conferences/conf/${createSlug(conference, conference)}`}>{conference}</a>}
         {speakers && speakers.length > 0 && <span>
-          <svg class="inline-block -mt-0.5 dark:text-gray-400 h-4 w-4" data-icon="tabler:user" height="1em" viewBox="0 0 24 24" width="1em"><symbol id="ai:tabler:user"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></symbol><use xlink:href="#ai:tabler:user"></use></svg>
             {speakers.map(speaker => {
               const speakerSlug = createSlug(speaker, speaker);
-              return <a href={`/conferences/speaker/${speakerSlug}`}
+              return <svg class="inline-block -mt-0.5 dark:text-gray-400 h-4 w-4" data-icon="tabler:user" height="1em" viewBox="0 0 24 24" width="1em"><symbol id="ai:tabler:user"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></symbol><use xlink:href="#ai:tabler:user"></use></svg>
+                <a href={`/conferences/speaker/${speakerSlug}`}
                 class="mr-3 no-underline"
               >{speaker}</a>
           })} 
